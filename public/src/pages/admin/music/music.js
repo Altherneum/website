@@ -8383,7 +8383,8 @@ var musicLinks = [
     },
     {
         "videoID": "_X3jo6YJVEM",
-        "category": "todo",
+        "category": "chill moody",
+        "top": true,
         "title": "NOVACAINE"
     },
     {
@@ -8618,7 +8619,8 @@ var musicLinks = [
     },
     {
         "videoID": "MTBmJO62zps",
-        "category": "todo",
+        "category": "electro phonk",
+        "top": true,
         "title": "AVANGARD (Slowed + Reverb)"
     },
     {
@@ -8850,7 +8852,8 @@ var musicLinks = [
     },
     {
         "videoID": "qx9SnL2FUz4",
-        "category": "todo",
+        "category": "phonk electro hardbass",
+        "top": true,
         "title": "ONIMXRU & STRAWANGLE - PSYCHO CRUISE"
     },
     {
@@ -9848,7 +9851,8 @@ var musicLinks = [
     },
     {
         "videoID": "vmWM1i5pmBE",
-        "category": "todo",
+        "category": "moody chill rap",
+        "top": true,
         "title": "Paranoia"
     },
     {
@@ -10533,7 +10537,8 @@ var musicLinks = [
     },
     {
         "videoID": "GYFAjCLu72g",
-        "category": "todo",
+        "category": "phonk rock hardbass",
+        "top": true,
         "title": "WARMACHINE"
     },
     {
@@ -11131,7 +11136,8 @@ var musicLinks = [
     },
     {
         "videoID": "CinY5yfsJUM",
-        "category": "todo",
+        "category": "electro histoire",
+        "top": true,
         "title": "Sterbinszky, MYNEA, RackWheel - Insomnia (Club Extended Mix)"
     },
     {
@@ -11211,7 +11217,8 @@ var musicLinks = [
     },
     {
         "videoID": "MY0RWtyC_Ug",
-        "category": "todo",
+        "category": "slavic electro histoire hardbass",
+        "top": true,
         "title": "Каникулы (Hardstyle Remix)"
     },
     {
@@ -12973,7 +12980,8 @@ var musicLinks = [
     },
     {
         "videoID": "gn63Siphu3M",
-        "category": "todo",
+        "category": "rock histoire",
+        "top": true,
         "title": "Seven Nation Army can't stop the United States (ww2 edit)"
     },
     {
