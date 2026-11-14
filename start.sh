@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+# Load environment variables from .env
+load_env() {
+    if [ -f .env ]; then
+        set -a
+        source .env
+        set +a
+    fi
+}
+
 # Detect OS
 detect_os() {
     if [ -f /etc/os-release ]; then
@@ -54,8 +63,9 @@ wait_for_mariadb_ci() {
     echo "Waiting for MariaDB (CI mode)..."
     local max_attempts=30
     local attempt=0
+    # DB_IP permet d'utiliser le conteneur MariaDB sidecar de la CI Forgejo.
     while [ $attempt -lt $max_attempts ]; do
-        if mysql -h 127.0.0.1 -u root -p"${MARIADB_ROOT_PASSWORD:-rootpassword}" -e "SELECT 1" > /dev/null 2>&1; then
+        if mysql -h "${DB_IP:-127.0.0.1}" -u root -p"${MARIADB_ROOT_PASSWORD:-rootpassword}" -e "SELECT 1" > /dev/null 2>&1; then
             echo "MariaDB is ready"
             return 0
         fi
@@ -144,6 +154,7 @@ start_php() {
 }
 
 # Main
+load_env
 detect_os
 start_mariadb
 start_php

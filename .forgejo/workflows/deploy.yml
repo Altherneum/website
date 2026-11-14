@@ -1,0 +1,17 @@
+name: Deploy
+
+# Équivalent Forgejo du workflow GitHub "Deploy".
+# Forgejo ne supporte pas encore workflow_run : le déploiement automatique
+# après les tests est intégré dans ci.yml. Ce fichier permet le déclenchement
+# manuel depuis l'onglet Actions.
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send API Request
+        run: |
+          curl -f -X GET \
+            https://doc.altherneum.fr/api/deploy

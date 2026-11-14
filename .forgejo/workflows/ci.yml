@@ -1,0 +1,92 @@
+name: CI/CD Security Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  security-tests:
+    runs-on: ubuntu-latest
+
+    env:
+      MARIADB_CONTAINER: ci-mariadb-${{ github.run_id }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Forgejo runner force les jobs sur le réseau forgejo_runner, ce qui
+      # empêche l'utilisation de jobs.<job_id>.services. Le conteneur MariaDB
+      # est donc lancé sur le même réseau que le job, via le socket Docker.
+      - name: Start MariaDB
+        run: |
+          docker rm -f "$MARIADB_CONTAINER" 2>/dev/null || true
+          NETWORK=$(docker inspect "$(hostname)" \
+            --format '{{range $name, $v := .NetworkSettings.Networks}}{{$name}}{{end}}')
+          [ -n "$NETWORK" ] || NETWORK=forgejo_runner
+          docker run -d --name "$MARIADB_CONTAINER" --network "$NETWORK" \
+            -e MARIADB_ROOT_PASSWORD=rootpassword \
+            -e MARIADB_DATABASE=mydb \
+            -e MARIADB_USER=webuser \
+            -e MARIADB_PASSWORD=strongpassword \
+            mariadb:11
+          for attempt in $(seq 1 60); do
+            if docker exec "$MARIADB_CONTAINER" \
+                healthcheck.sh --connect --innodb_initialized >/dev/null 2>&1; then
+              echo "MariaDB ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "MariaDB failed to start" >&2
+          docker logs "$MARIADB_CONTAINER" || true
+          exit 1
+
+      - name: Prepare .env for Forgejo
+        run: |
+          cp .env.exemple .env
+          sed -i "s/^DB_IP=.*/DB_IP=\"$MARIADB_CONTAINER\"/" .env
+          sed -i 's/^FORCE_DB_INIT=.*/FORCE_DB_INIT="true"/' .env
+
+      - name: Install MariaDB client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mariadb-client
+
+      - name: Install PHP & configure
+        run: |
+          SKIP_MARIADB=1 bash install.sh
+
+          php -v
+          php -m | grep pdo_mysql
+
+      - name: Start services (MariaDB + PHP)
+        run: |
+          SKIP_MARIADB=1 bash start.sh
+
+      - name: Run security tests
+        run: bash tests/run-all-tests.sh
+        env:
+          BASE_URL: http://127.0.0.1:8000
+
+      - name: Stop services
+        if: always()
+        run: |
+          pkill -f "php -S 127.0.0.1:8000" 2>/dev/null || true
+          docker rm -f "$MARIADB_CONTAINER" 2>/dev/null || true
+
+  # Forgejo ne supporte pas encore workflow_run : le déploiement est chaîné au
+  # job de tests via needs, et reste limité aux push sur main/master ou à un
+  # déclenchement manuel.
+  deploy-tests:
+    needs: security-tests
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')) }}
+    steps:
+      - name: Send API Request
+        run: |
+          curl -f -X GET \
+            https://doc.altherneum.fr/api/deploy
