@@ -1,6 +1,6 @@
 <?php
 
-$owner    = 'lx78WyY0J5';
+$owner    = 'Altherneum';
 $repo     = 'website';
 $workflow = 'ci.yml';
 $branch   = 'main';
