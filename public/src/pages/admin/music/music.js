@@ -9836,7 +9836,8 @@ var musicLinks = [
     },
     {
         "videoID": "Z8INzXR0J_8",
-        "category": "todo",
+        "category": "phonk electro",
+        "top": true,
         "title": "Keraunos"
     },
     {
@@ -13647,7 +13648,8 @@ var musicLinks = [
     },
     {
         "videoID": "wPJYvICJ5tY",
-        "category": "todo",
+        "category": "electro histoire chill",
+        "top": true,
         "title": "Never Dull - In My Mind (ft. Crystal Waters)"
     },
     {
