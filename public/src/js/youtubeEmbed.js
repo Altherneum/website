@@ -444,6 +444,8 @@ function addCard(top, playlist, videoID, category, latest, premadePlayList, vide
     urlOpenYoutube.appendChild(imageOpenOnYoutube);
     divLogoHolder.appendChild(urlOpenYoutube);
 
+    //removed car Github ne supporte pas de chercher dans des fichier trop lourd
+    /*
     var urlOpenGithub = document.createElement("a");
     if(videoType === "music"){
         urlOpenGithub.href = "https://github.com/search?q=" + videoID + "+repo:Altherneum/Altherneum.github.io+path:src/js/content/music.js&type=code";
@@ -457,6 +459,7 @@ function addCard(top, playlist, videoID, category, latest, premadePlayList, vide
 
     urlOpenGithub.appendChild(imageOpenOnGithub);
     divLogoHolder.appendChild(urlOpenGithub);
+    */
 
     var urlCopy = document.createElement("button");
     urlCopy.onclick  = () => { navigator.clipboard.writeText(videoID);}
