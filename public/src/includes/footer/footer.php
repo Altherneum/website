@@ -65,7 +65,7 @@
         <a href="https://code.altherneum.fr/"><img src="/src/assets/svg/trademark/vscode.svg" class="svg" alt=""></a>
         <a href="https://git.altherneum.fr/"><img src="/src/assets/svg/trademark/git.svg" class="svg" alt=""></a>
         <a href="https://keeweb.altherneum.fr/"><img src="/src/assets/svg/password.svg" class="svg" alt=""></a>
-        <a href="https://dockhand.altherneum.fr/"><img src="/src/assets/svg/trademark/docker.svg" class="svg" alt=""></a>
+        <a href="https://dockhand.altherneum.fr/"><img src="/src/assets/svg/trademark/docker.svg" class="svg-color" alt=""></a>
         <a href="https://mail.altherneum.fr/"><img src="/src/assets/svg/mail.svg" class="svg" alt=""></a>
         <a href="https://traefik.altherneum.fr/"><img src="/src/assets/svg/network.svg" class="svg" alt=""></a>
         <a href="https://cloud.altherneum.fr/"><img src="/src/assets/svg/zip.svg" class="svg" alt=""></a>
