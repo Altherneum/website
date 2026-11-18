@@ -83,3 +83,7 @@ footer>div>nav>a {
 .render-low-ms {
     color: red !important;
 }
+
+#svg-heart-footer {
+    transform: translateY(25%)
+}

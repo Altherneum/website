@@ -21,14 +21,9 @@ summary {
     font-weight: bolder;
 }
 
-.svg {
+.svg, .svg-color {
     max-width: 40px;
     padding-top: 0px;
-}
-.svg-color {
-    max-width: 40px;
-    margin: 5px;
-    transform: translateY(25%);
 }
 
 i {
