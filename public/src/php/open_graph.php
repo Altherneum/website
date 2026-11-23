@@ -55,8 +55,19 @@ function renderOpenGraph(string $title, string $route, string $description, stri
     $html = '<head>' . PHP_EOL;
     $html .= '    <meta charset="UTF-8">' . PHP_EOL;
     $html .= '    <title>' . escapeOpenGraphText($title) . '</title>' . PHP_EOL;
+    $html .= '    <meta name="description" content="' . escapeOpenGraphText($description) . '">' . PHP_EOL;
     foreach ($tags as $property => $content) {
         $html .= '    <meta property="' . escapeOpenGraphText($property) . '" content="' . escapeOpenGraphText($content) . '" />' . PHP_EOL;
+    }
+
+    $twitterTags = [
+        'twitter:card' => 'summary',
+        'twitter:title' => $title,
+        'twitter:description' => $description,
+        'twitter:image' => $imageUrl,
+    ];
+    foreach ($twitterTags as $name => $content) {
+        $html .= '    <meta name="' . escapeOpenGraphText($name) . '" content="' . escapeOpenGraphText($content) . '" />' . PHP_EOL;
     }
     $html .= '</head>' . PHP_EOL;
 
