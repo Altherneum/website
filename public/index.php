@@ -32,14 +32,6 @@
     require_once $_SERVER['DOCUMENT_ROOT'] . '/src/php/rate_limiter.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/src/php/view_counter.php';
 
-    // Global rate limit per IP (DDoS protection)
-    $clientIp = getClientIdentifier();
-    $maxAttempts = 20;
-    if(!empty($_SESSION['username']) || !empty($_SESSION['discord_id'])){ // Determine max attempts based on user authentication (classic or Discord)
-        $maxAttempts = 50;
-    };
-    checkRateLimitByIP($pdo, 'global', $maxAttempts, 1);
-
     $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
     //remove any ending in ".html"
@@ -47,6 +39,25 @@
     if (substr($uri, -5) === '.html') {
         $uri = substr($uri, 0, -5);
     }
+
+    // Sitemap dynamique (avant le rate limit pour rester accessible aux crawlers)
+    if ($uri === 'sitemap.xml') {
+        require $_SERVER['DOCUMENT_ROOT'] . '/src/php/sitemap.php';
+        header('Content-Type: application/xml; charset=UTF-8');
+        echo renderSitemap(
+            $_SERVER['DOCUMENT_ROOT'] . '/src/pages',
+            $_SERVER['DOCUMENT_ROOT'] . '/src/index/index.php'
+        );
+        exit;
+    }
+
+    // Global rate limit per IP (DDoS protection)
+    $clientIp = getClientIdentifier();
+    $maxAttempts = 20;
+    if(!empty($_SESSION['username']) || !empty($_SESSION['discord_id'])){ // Determine max attempts based on user authentication (classic or Discord)
+        $maxAttempts = 50;
+    };
+    checkRateLimitByIP($pdo, 'global', $maxAttempts, 1);
 
     // Route API (case-insensitive, file-based routing)
     $lowerUri = strtolower($uri);
