@@ -45,9 +45,7 @@
     //remove any ending in ".html"
     //Google index pages like "/abc/abc2.html" which break as this script wont find the file
     if (substr($uri, -5) === '.html') {
-        $result = substr($uri, 0, -5);
-    } else {
-        $result = $uri;
+        $uri = substr($uri, 0, -5);
     }
 
     // Route API (case-insensitive, file-based routing)
