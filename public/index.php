@@ -42,6 +42,14 @@
 
     $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
+    //remove any ending in ".html"
+    //Google index pages like "/abc/abc2.html" which break as this script wont find the file
+    if (substr($uri, -5) === '.html') {
+        $result = substr($uri, 0, -5);
+    } else {
+        $result = $uri;
+    }
+
     // Route API (case-insensitive, file-based routing)
     $lowerUri = strtolower($uri);
     if (str_starts_with($lowerUri, 'api')) {
