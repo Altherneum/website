@@ -4,7 +4,6 @@
 const OPEN_GRAPH_SITE_NAME = 'doc.altherneum.fr';
 const OPEN_GRAPH_SITE_URL = 'https://doc.altherneum.fr';
 const OPEN_GRAPH_DEFAULT_IMAGE = '/src/assets/gif/small.gif';
-const OPEN_GRAPH_TWITTER_IMAGE = '/src/assets/image/og-image.png';
 const OPEN_GRAPH_LOCALE = 'fr_FR';
 const OPEN_GRAPH_LANGUAGE = 'fr-FR';
 const OPEN_GRAPH_TWITTER_SITE = '@Altherneum';
@@ -139,11 +138,6 @@ function renderOpenGraph(string $title, string $route, string $description, stri
     $imageDetails = getOpenGraphImageDetails($image);
     $metaDescription = buildOpenGraphDescription($description);
 
-    $twitterImageUrl = $imageUrl;
-    if ($image === OPEN_GRAPH_DEFAULT_IMAGE) {
-        $twitterImageUrl = buildOpenGraphImageUrl(OPEN_GRAPH_TWITTER_IMAGE);
-    }
-
     $openGraphTags = [
         'og:title' => $openGraphTitle,
         'og:type' => 'website',
@@ -170,7 +164,7 @@ function renderOpenGraph(string $title, string $route, string $description, stri
         'twitter:creator' => OPEN_GRAPH_TWITTER_CREATOR,
         'twitter:title' => $title,
         'twitter:description' => $metaDescription,
-        'twitter:image' => $twitterImageUrl,
+        'twitter:image' => $imageUrl,
         'twitter:image:alt' => 'Altherneum.fr',
     ];
 
