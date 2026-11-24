@@ -137,6 +137,7 @@ function renderOpenGraph(string $title, string $route, string $description, stri
     $imageUrl = buildOpenGraphImageUrl($image);
     $imageDetails = getOpenGraphImageDetails($image);
     $metaDescription = buildOpenGraphDescription($description);
+    $imageAlt = 'logo';
 
     $openGraphTags = [
         'og:title' => $openGraphTitle,
@@ -152,7 +153,7 @@ function renderOpenGraph(string $title, string $route, string $description, stri
     if ($imageDetails['height'] > 0) {
         $openGraphTags['og:image:height'] = (string) $imageDetails['height'];
     }
-    $openGraphTags['og:image:alt'] = 'logo';
+    $openGraphTags['og:image:alt'] = $imageAlt;
     $openGraphTags['og:url'] = $url;
     $openGraphTags['og:locale'] = OPEN_GRAPH_LOCALE;
     $openGraphTags['og:site_name'] = OPEN_GRAPH_SITE_NAME;
@@ -162,11 +163,20 @@ function renderOpenGraph(string $title, string $route, string $description, stri
         'twitter:card' => 'summary_large_image',
         'twitter:site' => OPEN_GRAPH_TWITTER_SITE,
         'twitter:creator' => OPEN_GRAPH_TWITTER_CREATOR,
-        'twitter:title' => $title,
+        'twitter:title' => $openGraphTitle,
         'twitter:description' => $metaDescription,
         'twitter:image' => $imageUrl,
-        'twitter:image:alt' => 'Altherneum.fr',
     ];
+    if ($imageDetails['type'] !== '') {
+        $twitterTags['twitter:image:type'] = $imageDetails['type'];
+    }
+    if ($imageDetails['width'] > 0) {
+        $twitterTags['twitter:image:width'] = (string) $imageDetails['width'];
+    }
+    if ($imageDetails['height'] > 0) {
+        $twitterTags['twitter:image:height'] = (string) $imageDetails['height'];
+    }
+    $twitterTags['twitter:image:alt'] = $imageAlt;
 
     $structuredData = [
         '@context' => 'https://schema.org',
