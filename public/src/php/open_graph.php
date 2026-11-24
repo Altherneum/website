@@ -23,6 +23,7 @@ function escapeOpenGraphText(string $text): string
 function buildOpenGraphRoute(string $route): string
 {
     $cleanRoute = trim($route, '/');
+    $cleanRoute = preg_replace('/\.html$/i', '', $cleanRoute);
     if ($cleanRoute === '') {
         return '';
     }
@@ -138,6 +139,11 @@ function renderOpenGraph(string $title, string $route, string $description, stri
     $imageDetails = getOpenGraphImageDetails($image);
     $metaDescription = buildOpenGraphDescription($description);
 
+    $twitterImageUrl = $imageUrl;
+    if ($image === OPEN_GRAPH_DEFAULT_IMAGE) {
+        $twitterImageUrl = buildOpenGraphImageUrl(OPEN_GRAPH_TWITTER_IMAGE);
+    }
+
     $openGraphTags = [
         'og:title' => $openGraphTitle,
         'og:type' => 'website',
@@ -164,7 +170,7 @@ function renderOpenGraph(string $title, string $route, string $description, stri
         'twitter:creator' => OPEN_GRAPH_TWITTER_CREATOR,
         'twitter:title' => $title,
         'twitter:description' => $metaDescription,
-        'twitter:image' => buildOpenGraphImageUrl(OPEN_GRAPH_TWITTER_IMAGE),
+        'twitter:image' => $twitterImageUrl,
         'twitter:image:alt' => 'Altherneum.fr',
     ];
 
