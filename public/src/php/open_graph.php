@@ -7,8 +7,8 @@ const OPEN_GRAPH_DEFAULT_IMAGE = '/src/assets/gif/small.gif';
 const OPEN_GRAPH_TWITTER_IMAGE = '/src/assets/image/og-image.png';
 const OPEN_GRAPH_LOCALE = 'fr_FR';
 const OPEN_GRAPH_LANGUAGE = 'fr-FR';
-const OPEN_GRAPH_PROFILE_USERNAME = 'Altherneum.fr';
 const OPEN_GRAPH_TWITTER_SITE = '@Altherneum';
+const OPEN_GRAPH_TWITTER_CREATOR = '@Altherneum';
 const OPEN_GRAPH_THEME_COLOR = '#1e1e1e';
 const OPEN_GRAPH_FAVICON_PNG = '/favicon-32x32.png';
 const OPEN_GRAPH_FAVICON_SVG = '/favicon.svg';
@@ -139,9 +139,8 @@ function renderOpenGraph(string $title, string $route, string $description, stri
     $metaDescription = buildOpenGraphDescription($description);
 
     $openGraphTags = [
-        'og:determiner' => '📰',
         'og:title' => $openGraphTitle,
-        'og:type' => 'siteweb',
+        'og:type' => 'website',
         'og:image' => $imageUrl,
     ];
     if ($imageDetails['type'] !== '') {
@@ -157,13 +156,12 @@ function renderOpenGraph(string $title, string $route, string $description, stri
     $openGraphTags['og:url'] = $url;
     $openGraphTags['og:locale'] = OPEN_GRAPH_LOCALE;
     $openGraphTags['og:site_name'] = OPEN_GRAPH_SITE_NAME;
-    $openGraphTags['profile:username'] = OPEN_GRAPH_PROFILE_USERNAME;
     $openGraphTags['og:description'] = $metaDescription;
 
     $twitterTags = [
         'twitter:card' => 'summary_large_image',
         'twitter:site' => OPEN_GRAPH_TWITTER_SITE,
-        'twitter:creator' => OPEN_GRAPH_TWITTER_SITE,
+        'twitter:creator' => OPEN_GRAPH_TWITTER_CREATOR,
         'twitter:title' => $title,
         'twitter:description' => $metaDescription,
         'twitter:image' => buildOpenGraphImageUrl(OPEN_GRAPH_TWITTER_IMAGE),
