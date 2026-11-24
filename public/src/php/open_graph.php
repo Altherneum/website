@@ -116,7 +116,7 @@ function buildOpenGraphDescription(string $description): string
 
     $separator = '';
     if (!preg_match('/[.!?]$/u', $description)) {
-        $separator = '.';
+        $separator = ' | ';
     }
 
     foreach ($suffixes as $suffix) {
