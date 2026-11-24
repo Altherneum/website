@@ -107,11 +107,11 @@ function buildOpenGraphDescription(string $description): string
     }
 
     $suffixes = [
-        ' Découvrez également les cours, outils, jeux et documentations techniques proposés gratuitement sur le site officiel d\'Altherneum.fr.',
-        ' Retrouvez les cours, outils, jeux et documentations techniques proposés gratuitement sur Altherneum.fr.',
-        ' Retrouvez les cours, outils et documentations techniques proposés par Altherneum.fr.',
-        ' Découvrez plus de cours, outils et jeux sur Altherneum.fr.',
-        ' Plus de contenus sur Altherneum.fr.',
+        'Découvrez également les cours, outils, jeux et documentations techniques proposés gratuitement sur le site officiel d\'Altherneum.fr.',
+        'Retrouvez les cours, outils, jeux et documentations techniques proposés gratuitement sur Altherneum.fr.',
+        'Retrouvez les cours, outils et documentations techniques proposés par Altherneum.fr.',
+        'Découvrez plus de cours, outils et jeux sur Altherneum.fr.',
+        'Plus de contenus sur Altherneum.fr.',
     ];
 
     $separator = '';
