@@ -79,13 +79,16 @@ if ($runStatus === 'completed' && $runConclusion === 'success') {
     // - timeout 60 : interrompt la commande si elle reste bloquée (code 124).
     // - safe.directory : autorise Git à utiliser le dépôt monté même si son
     //   propriétaire ne correspond pas à l'utilisateur courant.
-    // - pull --ff-only : avance seulement en fast-forward, sans commit de merge.
-    // - origin main : récupère la branche main du dépôt distant.
+    // - fetch puis reset --hard : aligne le clone de déploiement sur
+    //   origin/main, même si l'historique local a divergé.
     // - 2>&1 : renvoie aussi les erreurs dans la sortie lue par exec().
     $command = 'cd ' . escapeshellarg($repoPath) . ' && '
-        . 'HOME=/tmp GIT_TERMINAL_PROMPT=0 timeout 60 '
-        . 'git -c safe.directory=' . escapeshellarg($repoPath)
-        . ' pull --ff-only origin ' . escapeshellarg($branch) . ' 2>&1';
+        . 'export HOME=/tmp && '
+        . 'export GIT_TERMINAL_PROMPT=0 && '
+        . 'timeout 60 git -c safe.directory=' . escapeshellarg($repoPath)
+        . ' fetch origin ' . escapeshellarg($branch) . ' 2>&1 && '
+        . 'timeout 60 git -c safe.directory=' . escapeshellarg($repoPath)
+        . ' reset --hard ' . escapeshellarg('origin/' . $branch) . ' 2>&1';
 
     // Exécute la commande et récupère sa sortie et son code de retour.
     exec($command, $output, $exitCode);
@@ -95,7 +98,7 @@ if ($runStatus === 'completed' && $runConclusion === 'success') {
         echo nl2br(htmlspecialchars(implode("\n", $output)));
     } else {
         http_response_code(500);
-        echo "❌ Git pull failed<hr>";
+        echo "❌ Git update failed<hr>";
         echo "Exit code : " . htmlspecialchars((string) $exitCode) . "<br>";
         echo nl2br(htmlspecialchars(implode("\n", $output)));
         exit;
