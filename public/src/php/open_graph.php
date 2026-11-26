@@ -3,6 +3,7 @@
 // Balises Open Graph (OG), Twitter Cards, favicons et données structurées du site
 const OPEN_GRAPH_SITE_NAME = 'doc.altherneum.fr';
 const OPEN_GRAPH_SITE_URL = 'https://doc.altherneum.fr';
+const OPEN_GRAPH_DEFAULT_DESCRIPTION = 'Retrouvez les cours, outils, jeux et documentations techniques proposés gratuitement sur doc.altherneum.fr';
 const OPEN_GRAPH_DEFAULT_IMAGE = '/src/assets/gif/small.gif';
 const OPEN_GRAPH_LOCALE = 'fr_FR';
 const OPEN_GRAPH_LANGUAGE = 'fr-FR';
@@ -28,6 +29,11 @@ function buildOpenGraphRoute(string $route): string
     }
 
     return '/' . $cleanRoute;
+}
+
+function buildOpenGraphSiteName(string $route): string
+{
+    return OPEN_GRAPH_SITE_NAME . buildOpenGraphRoute($route);
 }
 
 function buildOpenGraphUrl(string $route): string
@@ -107,11 +113,11 @@ function buildOpenGraphDescription(string $description): string
     }
 
     $suffixes = [
-        'Découvrez également les cours, outils, jeux et documentations techniques proposés gratuitement sur le site officiel d\'Altherneum.fr',
-        'Retrouvez les cours, outils, jeux et documentations techniques proposés gratuitement sur Altherneum.fr',
-        'Retrouvez les cours, outils et documentations techniques proposés par Altherneum.fr',
-        'Découvrez plus de cours, outils et jeux sur Altherneum.fr',
-        'Plus de contenus sur Altherneum.fr',
+        'Découvrez également les cours, outils, jeux et documentations techniques proposés gratuitement doc.altherneum.fr',
+        'Retrouvez les cours, outils, jeux et documentations techniques proposés gratuitement sur doc.altherneum.fr',
+        'Retrouvez nous et vennez discuter sur discord.altherneum.fr',
+        'Retrouvez tout en open source sur github.altherneum.fr',
+        'Plus de contenus sur doc.altherneum.fr',
     ];
 
     $separator = '';
@@ -132,11 +138,13 @@ function buildOpenGraphDescription(string $description): string
 
 function renderOpenGraph(string $title, string $route, string $description, string $image = OPEN_GRAPH_DEFAULT_IMAGE): string
 {
-    $openGraphTitle = OPEN_GRAPH_SITE_NAME . buildOpenGraphRoute($route);
+    $openGraphTitle = $description;
+    $openGraphSiteName = buildOpenGraphSiteName($route);
     $url = buildOpenGraphUrl($route);
     $imageUrl = buildOpenGraphImageUrl($image);
     $imageDetails = getOpenGraphImageDetails($image);
-    $metaDescription = buildOpenGraphDescription($description);
+    $pageDescription = buildOpenGraphDescription($description);
+    $metaDescription = OPEN_GRAPH_DEFAULT_DESCRIPTION;
     $imageAlt = 'logo';
 
     $openGraphTags = [
@@ -156,7 +164,7 @@ function renderOpenGraph(string $title, string $route, string $description, stri
     $openGraphTags['og:image:alt'] = $imageAlt;
     $openGraphTags['og:url'] = $url;
     $openGraphTags['og:locale'] = OPEN_GRAPH_LOCALE;
-    $openGraphTags['og:site_name'] = OPEN_GRAPH_SITE_NAME;
+    $openGraphTags['og:site_name'] = $openGraphSiteName;
     $openGraphTags['og:description'] = $metaDescription;
 
     $twitterTags = [
@@ -182,7 +190,7 @@ function renderOpenGraph(string $title, string $route, string $description, stri
         '@context' => 'https://schema.org',
         '@type' => 'WebPage',
         'name' => $title,
-        'description' => $metaDescription,
+        'description' => $pageDescription,
         'url' => $url,
         'inLanguage' => OPEN_GRAPH_LANGUAGE,
         'isPartOf' => [
@@ -210,7 +218,7 @@ function renderOpenGraph(string $title, string $route, string $description, stri
     $html .= '    <meta charset="UTF-8">' . PHP_EOL;
     $html .= '    <meta name="viewport" content="width=device-width, initial-scale=1">' . PHP_EOL;
     $html .= '    <title>' . escapeOpenGraphText($title) . '</title>' . PHP_EOL;
-    $html .= '    <meta name="description" content="' . escapeOpenGraphText($metaDescription) . '">' . PHP_EOL;
+    $html .= '    <meta name="description" content="' . escapeOpenGraphText($pageDescription) . '">' . PHP_EOL;
     $html .= '    <link rel="canonical" href="' . escapeOpenGraphText($url) . '">' . PHP_EOL;
     $html .= '    <meta name="theme-color" content="' . escapeOpenGraphText(OPEN_GRAPH_THEME_COLOR) . '">' . PHP_EOL;
     $html .= '    <link rel="icon" type="image/png" sizes="32x32" href="' . escapeOpenGraphText(OPEN_GRAPH_FAVICON_PNG) . '">' . PHP_EOL;
